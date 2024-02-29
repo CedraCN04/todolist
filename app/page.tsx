@@ -2,6 +2,8 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { cn } from "@/lib/utils";
 import React, { useState } from "react";
 import { FaSearch } from "react-icons/fa";
@@ -14,22 +16,23 @@ type Task = {
   done: boolean;
 };
 
-// rechercher par le nom
-// créer un input pour rechercher le nom
-// créer un état pour l'input de recherche
-// récupérer les informations de l'input puis les stocker dans l'état
-// créer une fonction qui gère le déclenchement de la recherche et retire du DOM les tâches qui ne correspondent pas à cette recherche
-
-// fonction de recherche: filtrer mes tâches, si le titre de la tâche contient la valeur de l'input, alors je la garde, sinon je la retire
-
-// afficher les todos suivant des critères =>  tout | complété | non completé
-
 export default function Home() {
   const [title, setTitle] = useState("");
   const [currentTaskId, setCurrentTaskId] = useState<string | null>(null);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [editTitle, setEditTitle] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [filter, setFilter] = useState("all");
+
+  const filterTasks = (task: Task) => {
+    if (filter === "completed") {
+      return task.done;
+    }
+    if (filter === "no-completed") {
+      return !task.done;
+    }
+    return task;
+  };
 
   const removeTask = (id: string) => {
     const newTasks = tasks.filter((task) => task.id !== id);
@@ -85,6 +88,18 @@ export default function Home() {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
+      <RadioGroup
+        defaultValue="all"
+        className="flex flex-row justify-between gap-2 items-center"
+        onClick={(e) => setFilter((e.target as HTMLInputElement).value)}
+      >
+        <RadioGroupItem value="all" id="all" />
+        <Label htmlFor="all">Toutes les tâches</Label>
+        <RadioGroupItem value="completed" id="completed" />
+        <Label htmlFor="completed">Complétées</Label>
+        <RadioGroupItem value="no-completed" id="no-completed" />
+        <Label htmlFor="no-completed">Non complétées</Label>
+      </RadioGroup>
       <form
         className="flex flex-row items-center justify-around w-3/5"
         onSubmit={addTask}
@@ -100,6 +115,7 @@ export default function Home() {
       </form>
       <ul className="w-3/5 my-10 flex flex-col items-center gap-4">
         {tasks
+          .filter(filterTasks)
           .filter((task) => task.title.toLowerCase().includes(searchTerm))
           .map((task, id) => (
             <li
