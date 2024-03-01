@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { cn } from "@/lib/utils";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import { v4 as uuidv4 } from "uuid";
@@ -27,6 +27,7 @@ export default function Home() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState<TypeFilter>("all");
   const [description, setDescription] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const searchByNameAndDescription = (task: Task) => {
     return (
@@ -82,15 +83,25 @@ export default function Home() {
 
   const addTask = (e: React.FormEvent) => {
     e.preventDefault();
+    if (title === "") {
+      setErrorMessage("Veuillez ajouter une tâche");
+      return;
+    }
     const task = {
       id: uuidv4(),
       title: title,
       done: false,
     };
-    if (title === "") return;
     setTasks([...tasks, task]);
     setTitle("");
+    setErrorMessage("");
   };
+
+  useEffect(() => {
+    if (title) {
+      setErrorMessage("");
+    }
+  }, [title]);
 
   const toggleTaskDone = (id: string) => {
     const newTasks = tasks.map((task) => {
@@ -133,14 +144,16 @@ export default function Home() {
           <Label htmlFor="no-completed">Non complétées</Label>
         </RadioGroup>
       </div>
+      {errorMessage && <p className="text-red-500">{errorMessage}</p>}
       <form
         className="flex flex-row items-center justify-around w-3/5"
         onSubmit={addTask}
       >
         <Input
-          placeholder="Ajouter une tâche"
+          placeholder="Ajoutez une tâche"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
+          className={errorMessage && "border-red-500"}
         />
         <Button className="mx-4 bg-green-400 hover:bg-green-500 text-black">
           Ajoutez
@@ -218,9 +231,16 @@ export default function Home() {
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                   />
-                  <Button onClick={() => handleAddDescription(currentTaskId)}>
+                  <Button
+                    onClick={() => handleAddDescription(currentTaskId)}
+                    className="bg-blue-400 hover:bg-blue-500 text-black"
+                  >
                     {task.description ? "Modifier" : "Ajouter"}
                   </Button>
+                  <IoClose
+                    onClick={() => setDescription("")}
+                    className="h-10 w-10 cursor-pointer"
+                  />
                 </div>
               )}
             </li>
