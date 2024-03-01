@@ -10,6 +10,8 @@ import { FaSearch } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import { v4 as uuidv4 } from "uuid";
 
+// intégrer un système de sous-tâches
+
 type Task = {
   id: string;
   title: string;
