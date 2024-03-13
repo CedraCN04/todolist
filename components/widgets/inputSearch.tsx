@@ -1,50 +1,12 @@
-import { Input } from "@/components/ui/input";
-import {
-  DescriptionProps,
-  SearchBarProps,
-  Task,
-  TitleProps,
-} from "@/types/types";
-import React, { useState } from "react";
+import { Task } from "@/types/types";
 import { FaSearch } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
+import { Input } from "../ui/input";
 
-// Input edition du titre
-export function EditTitle({ task, setEditTitle }: TitleProps) {
-  const [title, setTitle] = useState(task.title || "");
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
-    setEditTitle(e.target.value);
-  };
-
-  return (
-    <>
-      <Input
-        placeholder="Modifier la tâche"
-        value={title}
-        onChange={handleChange}
-      />
-    </>
-  );
-}
-
-// Input ajout de la description
-export function Description({ description, setDescription }: DescriptionProps) {
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDescription(e.target.value);
-  };
-
-  return (
-    <>
-      <Input
-        placeholder="Ajouter une description"
-        value={description}
-        onChange={handleChange}
-      />
-    </>
-  );
-}
+type SearchBarProps = {
+  searchTerm: string;
+  setSearchTerm: (value: string) => void;
+};
 
 // Fonction pour rechercher une tâche
 export function searchTask(task: Task[], searchTerm: string) {

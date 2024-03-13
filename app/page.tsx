@@ -4,31 +4,21 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import {
-  Description,
-  EditTitle,
-  SearchBar,
-  searchTask,
-} from "@/components/widgets/inputs";
+import { Description } from "@/components/widgets/inputDescription";
+import { EditTitle } from "@/components/widgets/inputEdit";
+import { SearchBar, searchTask } from "@/components/widgets/inputSearch";
 import { cn } from "@/lib/utils";
 import { Task, TypeFilter } from "@/types/types";
 import React, { useEffect, useState } from "react";
-import { IoClose } from "react-icons/io5";
 import { v4 as uuidv4 } from "uuid";
 
 export default function Home() {
   const [title, setTitle] = useState("");
   const [currentTaskId, setCurrentTaskId] = useState<string | null>(null);
   const [tasks, setTasks] = useState<Task[]>([]);
-  const [editTitle, setEditTitle] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState<TypeFilter>("all");
-  const [description, setDescription] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-
-  // faire un ou plusieurs composant réutilisable pour l'input description et edit title
-  // faire un composant pour la searchbar ou l'intégrer a celui du dessus (à voir si c'est possible)
-  // intégrer un système de sous-tâches
 
   const filteredTasks = searchTask(tasks, searchTerm);
 
@@ -42,9 +32,9 @@ export default function Home() {
     return true;
   };
 
-  const handleAddDescription = (id: string) => {
+  const handleAddDescription = (description: string) => {
     const newTasks = tasks.map((task) => {
-      if (task.id === id) {
+      if (task.id === currentTaskId) {
         return { ...task, description: description };
       }
       return task;
@@ -61,14 +51,12 @@ export default function Home() {
   const editTask = (id: string) => {
     setCurrentTaskId(id);
     const newTask = tasks.find((task) => task.id === id);
-    setEditTitle(newTask?.title ?? "");
-    setDescription(newTask?.description ?? "");
   };
 
-  const editTaskTitle = () => {
+  const editTaskTitle = (title: string) => {
     const newTasks = tasks.map((task) => {
       if (task.id === currentTaskId) {
-        return { ...task, title: editTitle };
+        return { ...task, title: title };
       }
       return task;
     });
@@ -107,10 +95,6 @@ export default function Home() {
     });
     setTasks(newTasks);
   };
-
-  // composant
-
-  // <SearchBar onSearch={'dfdfdfdf'} />
 
   return (
     <main className="flex min-h-screen flex-col items-center gap-4 p-20">
@@ -167,7 +151,7 @@ export default function Home() {
                 />
                 <div className="flex flex-col gap-2">
                   {task.title}
-                  {description && (
+                  {task.description && (
                     <span className="text-sm text-gray-600">
                       {task.description}
                     </span>
@@ -191,41 +175,19 @@ export default function Home() {
             </div>
             {task.id === currentTaskId && (
               <div className="flex flex-row items-center justify-around w-full gap-2 my-4">
-                <EditTitle task={task} setEditTitle={setEditTitle} />
-                <Button
-                  onClick={() => editTaskTitle()}
-                  className=" bg-green-400 hover:bg-green-500 text-black"
-                >
-                  Modifier
-                </Button>
-                <Button
-                  onClick={() => setCurrentTaskId(null)}
-                  className=" bg-red-400 hover:bg-red-500 text-black"
-                >
-                  Annuler
-                </Button>
+                <EditTitle
+                  task={task}
+                  onEditTitle={editTaskTitle}
+                  onCancelEdit={() => setCurrentTaskId(null)}
+                />
               </div>
             )}
             {task.id === currentTaskId && (
-              <div className="flex flex-row justify-between gap-2 w-full">
-                <div className="relative w-full">
-                  <Description
-                    description={description}
-                    setDescription={setDescription}
-                  />
-                  {description && (
-                    <IoClose
-                      onClick={() => setDescription("")}
-                      className="cursor-pointer absolute right-2 top-3"
-                    />
-                  )}
-                </div>
-                <Button
-                  onClick={() => handleAddDescription(currentTaskId)}
-                  className="bg-blue-400 hover:bg-blue-500 text-black"
-                >
-                  {task.description ? "Modifier" : "Ajouter"}
-                </Button>
+              <div className="flex flex-row justify-between items-center w-full">
+                <Description
+                  task={task}
+                  addDescription={handleAddDescription}
+                />
               </div>
             )}
           </li>
