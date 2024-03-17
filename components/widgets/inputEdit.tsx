@@ -9,10 +9,6 @@ type TitleProps = {
   onCancelEdit: () => void;
 };
 
-// ajouter les boutons pour ajouter/modifier la description
-// améliorer et externaliser l'ajout de tâche
-
-// Input edition du titre
 export function EditTitle({ task, onEditTitle, onCancelEdit }: TitleProps) {
   const [title, setTitle] = useState(task.title);
 
@@ -30,6 +26,7 @@ export function EditTitle({ task, onEditTitle, onCancelEdit }: TitleProps) {
       <Button
         onClick={() => onEditTitle(title)}
         className=" bg-green-400 hover:bg-green-500 text-black"
+        disabled={!title}
       >
         Modifier
       </Button>
