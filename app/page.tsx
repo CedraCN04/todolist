@@ -1,24 +1,24 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { AddTask } from "@/components/widgets/addTask";
 import { Description } from "@/components/widgets/inputDescription";
 import { EditTitle } from "@/components/widgets/inputEdit";
 import { SearchBar, searchTask } from "@/components/widgets/inputSearch";
 import { cn } from "@/lib/utils";
 import { Task, TypeFilter } from "@/types/types";
-import React, { useEffect, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
+import { useState } from "react";
+
+// ajout de tâche dans un composant à part
+// commencer à créer des hooks customs (ajout de tâches)
 
 export default function Home() {
-  const [title, setTitle] = useState("");
   const [currentTaskId, setCurrentTaskId] = useState<string | null>(null);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState<TypeFilter>("all");
-  const [errorMessage, setErrorMessage] = useState("");
 
   const filteredTasks = searchTask(tasks, searchTerm);
 
@@ -48,9 +48,8 @@ export default function Home() {
     setTasks(newTasks);
   };
 
-  const editTask = (id: string) => {
+  const selectTask = (id: string) => {
     setCurrentTaskId(id);
-    const newTask = tasks.find((task) => task.id === id);
   };
 
   const editTaskTitle = (title: string) => {
@@ -63,28 +62,6 @@ export default function Home() {
     setTasks(newTasks);
     setCurrentTaskId(null);
   };
-
-  const addTask = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (title === "") {
-      setErrorMessage("Veuillez ajouter une tâche");
-      return;
-    }
-    const task = {
-      id: uuidv4(),
-      title: title,
-      done: false,
-    };
-    setTasks([...tasks, task]);
-    setTitle("");
-    setErrorMessage("");
-  };
-
-  useEffect(() => {
-    if (title) {
-      setErrorMessage("");
-    }
-  }, [title]);
 
   const toggleTaskDone = (id: string) => {
     const newTasks = tasks.map((task) => {
@@ -117,21 +94,7 @@ export default function Home() {
           <Label htmlFor="no-completed">Non complétées</Label>
         </RadioGroup>
       </div>
-      {errorMessage && <p className="text-red-500">{errorMessage}</p>}
-      <form
-        className="flex flex-row items-center justify-around w-3/5"
-        onSubmit={addTask}
-      >
-        <Input
-          placeholder="Ajoutez une tâche"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          className={errorMessage && "border-red-500"}
-        />
-        <Button className="mx-4 bg-green-400 hover:bg-green-500 text-black">
-          Ajoutez
-        </Button>
-      </form>
+      <AddTask setTasks={setTasks} />
       <ul className="w-3/5 my-10 flex flex-col items-center gap-4">
         {filteredTasks.filter(filterTasks).map((task, id) => (
           <li
@@ -161,7 +124,7 @@ export default function Home() {
               <div className="flex flex-row justify-between gap-4 ">
                 <Button
                   className="bg-blue-400 hover:bg-blue-500 text-black"
-                  onClick={() => editTask(task.id)}
+                  onClick={() => selectTask(task.id)}
                 >
                   Editer
                 </Button>
