@@ -13,6 +13,9 @@ import { filterTasks } from "@/lib/utils-task";
 import { TypeFilter } from "@/types/types";
 import { useState } from "react";
 
+// tester les fonctionnalités du hook custom
+// ajouter une fonctionnalité et la tester avec jest sans passer par le navigateur
+
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState<TypeFilter>("all");
@@ -81,7 +84,7 @@ export default function Home() {
               )}
             >
               <div className="w-full flex flex-row items-center justify-between">
-                <div className="flex flex-row justify-between">
+                <div className="flex flex-row justify-between items-center">
                   <input
                     type="checkbox"
                     checked={task.done}

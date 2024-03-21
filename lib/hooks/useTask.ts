@@ -2,9 +2,14 @@ import { Task } from "@/types/types";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-export const useTask = () => {
 
-    const [tasks, setTasks] = useState<Task[]>([]);
+//const { tasks} = useTask()
+// const { tasks } = useTask([{ id, title, done }])
+
+
+export const useTask = (initialTask:Task[] = []) => {
+
+    const [tasks, setTasks] = useState<Task[]>(initialTask);
     const [currentTaskId, setCurrentTaskId] = useState<string | null>(null);
 
     const selectTask = (id: string) => {
@@ -67,7 +72,7 @@ export const useTask = () => {
         toggleTaskDone,
         currentTaskId,
         setCurrentTaskId,
-        selectTask
+        selectTask,
     }
     
 }
