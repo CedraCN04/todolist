@@ -13,8 +13,8 @@ import { filterTasks } from "@/lib/utils-task";
 import { TypeFilter } from "@/types/types";
 import { useState } from "react";
 
-// tester les fonctionnalités du hook custom
-// ajouter une fonctionnalité et la tester avec jest sans passer par le navigateur
+// Je veux récupérer mon local storage
+// Je veux pouvoir enregistrer que le titre a été modifié
 
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState("");
