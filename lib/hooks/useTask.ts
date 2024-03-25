@@ -1,11 +1,10 @@
 import { Task } from "@/types/types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-
-//const { tasks} = useTask()
-// const { tasks } = useTask([{ id, title, done }])
-
+// ajouter la tâche créée dans le local storage
+// effacer la tache du local storage lorsqu'on la supprime
+// modifier la tâche du local storage lorsqu'on la modifie
 
 export const useTask = (initialTask:Task[] = []) => {
 
@@ -16,6 +15,17 @@ export const useTask = (initialTask:Task[] = []) => {
       setCurrentTaskId(id);
     };
 
+    const saveTask = (tasks: Task[]) => {
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+    }
+
+    const getTask = () => {
+      const tasks = localStorage.getItem('tasks');
+      return tasks ? JSON.parse(tasks) : [];
+    }
+
+    let taskList = getTask() || [];
+
     const addTask = (title: string) => {
       if (!title) return;
       const newTask = {
@@ -23,12 +33,15 @@ export const useTask = (initialTask:Task[] = []) => {
         title: title,
         done: false,
       };
-      setTasks([...tasks, newTask]);
+      const updatedTask = [...taskList, newTask];
+      setTasks(updatedTask);
+      saveTask(updatedTask);
     }
 
     const deleteTask = (id: string) => {
       const newTasks = tasks.filter((task) => task.id !== id);
       setTasks(newTasks);
+      localStorage.setItem('tasks', JSON.stringify(newTasks));
     }
 
     const editTask = (title: string) => {
@@ -40,6 +53,7 @@ export const useTask = (initialTask:Task[] = []) => {
       });
       setTasks(newTasks);
       setCurrentTaskId(null);
+      localStorage.setItem('tasks', JSON.stringify(newTasks));
     }
 
     const addDescription = (description: string) => {
@@ -51,6 +65,7 @@ export const useTask = (initialTask:Task[] = []) => {
       });
       setTasks(newTasks);
       setCurrentTaskId(null);
+      localStorage.setItem('tasks', JSON.stringify(newTasks));
     }
 
     const toggleTaskDone = (id: string) => {
@@ -61,7 +76,12 @@ export const useTask = (initialTask:Task[] = []) => {
         return task;
       });
       setTasks(newTasks);
+      localStorage.setItem('tasks', JSON.stringify(newTasks));
     }
+    useEffect(() => {
+      const loadedTasks = getTask() || [];
+      setTasks(loadedTasks);
+    }, []);
 
     return {
         tasks,
