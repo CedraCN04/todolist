@@ -26,7 +26,11 @@ export const useTask = (initialTask:Task[] = []) => {
       setTasks(newTasks);
     }
 
-    const editTask = (title: string) => {
+  const editTask = (title: string) => {
+    // faire quelque chose avant d'éditer
+    // si pas de selection => return
+    // si pas de selection => return une valeur
+    if (!currentTaskId) return;
       const newTasks = tasks.map((task) => {
         if (task.id === currentTaskId) {
           return { ...task, title: title };
@@ -38,6 +42,7 @@ export const useTask = (initialTask:Task[] = []) => {
     }
 
     const addDescription = (description: string) => {
+      if (!currentTaskId) return;
       const newTasks = tasks.map((task) => {
         if (task.id === currentTaskId) {
           return { ...task, description: description };
@@ -49,6 +54,7 @@ export const useTask = (initialTask:Task[] = []) => {
     }
 
     const toggleTaskDone = (id: string) => {
+      if (!currentTaskId) return;
       const newTasks = tasks.map((task) => {
         if (task.id === id) {
           return { ...task, done: !task.done };
