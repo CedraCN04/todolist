@@ -10,6 +10,7 @@ type AddTaskProps = {
 
 export const AddTask = ({ onAdd }: AddTaskProps) => {
   const [title, setTitle] = useState("");
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
   };

@@ -1,16 +1,15 @@
 import { act, renderHook } from "@testing-library/react-hooks";
-import { v4 as uuidv4 } from "uuid";
 import { useTask } from "../lib/hooks/useTask";
 import { Task } from "../types/types";
 
 const task1: Task = {
-    id: uuidv4(),
+  id: 1,
     title: "task1",
     done: false,
 }
 
 const task2: Task = {
-    id : uuidv4(),
+    id : 2,
     title: "task2",
     done: false,
 }
@@ -38,12 +37,19 @@ describe("add task", () => {
     })
     expect(result.current.tasks).toEqual([]);
   });
-  it("task added to a list", () => {
+  it("add first todo", () => {
     const { result } = renderHook(() => useTask());
     act(() => {
       result.current.addTask("task1");
     })
-    expect(result.current.tasks).toEqual([{id: expect.any(String), title: "task1", done: false}]);
+    expect(result.current.tasks).toEqual([task1]);
+  });
+  it("add second todo", () => {
+    const { result } = renderHook(() => useTask([task1]));
+    act(() => {
+      result.current.addTask("task2");
+    })
+    expect(result.current.tasks).toEqual([task1, task2]);
   });
 })
 
@@ -80,26 +86,16 @@ describe("delete task", () => {
 describe("edit task", () => {
   it("edit task in the array if there is one task, after seleted it", () => {
     const { result } = renderHook(() => useTask([task1]));
-    // test de selection d'une tâche
+    const newTodo = {
+      ...task1,
+      title: "task edited"
+    }
+    
     act(() => {
-      result.current.selectTask(task1.id);
-    });
-    expect(result.current.currentTaskId).toBe(task1.id);
-    act(() => {
-      result.current.editTask("task edited");
+      result.current.updateTask(newTodo);
     })
-    expect(result.current.tasks).toEqual([{ id: expect.any(String), title: "task edited", done: false }]);
-    // test que la task n'est plus selectionnée
-    expect(result.current.currentTaskId).toBe(null);
+    expect(result.current.tasks).toEqual([newTodo]);
   });
-  // test si pas de selection ? il se passe quoi ?
-  it("no task selected, return nothing", () => {
-    const { result } = renderHook(() => useTask([task1]));
-    act(() => {
-      result.current.editTask("task edited");
-    })
-    expect(result.current.tasks).toEqual([task1]);
-  })
 });
 
 // 1. je sélectionne une tâche
@@ -108,21 +104,14 @@ describe("edit task", () => {
 describe("add description", () => {
   it("add a description when a task is selected", () => {
     const { result } = renderHook(() => useTask([task1]));
+    const newTodo = {
+      ...task1,
+      description: "Bonjour"
+    }
     act(() => {
-      result.current.selectTask(task1.id);
+      result.current.updateTask(newTodo);
     });
-    expect(result.current.currentTaskId).toBe(task1.id);
-    act(() => {
-      result.current.addDescription("Bonjour");
-    });
-    expect(result.current.tasks).toEqual([{ id: expect.any(String), title: "task1", done: false, description: "Bonjour" }]);
-  })
-  it("no task selected, return nothing", () => {
-    const { result } = renderHook(() => useTask([task1]));
-    act(() => {
-      result.current.addDescription("Bonjour");
-    });
-    expect(result.current.tasks).toEqual([task1]);
+    expect(result.current.tasks).toEqual([newTodo]);
   })
 })
 
@@ -132,20 +121,16 @@ describe("add description", () => {
 describe("toggle task done or not done", () => {
   it("toggle task is done or not if task is selected", () => {
     const { result } = renderHook(() => useTask([task1]));
+    const newTodo = {
+      ...task1,
+      done: true
+    }
     act(() => {
-      result.current.selectTask(task1.id);
+      result.current.updateTask(newTodo);
     });
-    expect(result.current.currentTaskId).toBe(task1.id);
-    act(() => {
-      result.current.toggleTaskDone(task1.id);
-    });
-    expect(result.current.tasks).toEqual([{ id: expect.any(String), title: "task1", done: true }]);
-  })
-  it("no task selected, return nothing", () => {
-    const { result } = renderHook(() => useTask([task1]));
-    act(() => {
-      result.current.toggleTaskDone(task1.id);
-    });
-    expect(result.current.tasks).toEqual([task1]);
+    expect(result.current.tasks).toEqual([newTodo]);
   })
 });
+
+
+
