@@ -11,9 +11,9 @@ export const useTask = (initialTask:Task[] = []) => {
       return id;
     };
 
-  const newTodoId = () => {
-    const ids = tasks.map((task) => task.id)
-      return newId()
+    const newTodoId = () => {
+      tasks.map((task) => task.id)
+        return newId()
     }
 
     const addTask = (title: string) => {

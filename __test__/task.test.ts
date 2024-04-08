@@ -76,13 +76,6 @@ describe("delete task", () => {
   });
 });
 
-// edit task if task is selected
-// what happened if no task selected
-
-// 1. je sélectionne une tâche
-// 11. test de la selection
-// 2. Je modifie ma tâche
-// 3. que dois-je contrôler avec mon expect ?
 describe("edit task", () => {
   it("edit task in the array if there is one task, after seleted it", () => {
     const { result } = renderHook(() => useTask([task1]));
@@ -98,9 +91,6 @@ describe("edit task", () => {
   });
 });
 
-// 1. je sélectionne une tâche
-// 2. J'ajoute une description
-// 3. Que se passe-t-il si aucune tâche n'est selectionnée ?
 describe("add description", () => {
   it("add a description when a task is selected", () => {
     const { result } = renderHook(() => useTask([task1]));
@@ -115,9 +105,6 @@ describe("add description", () => {
   })
 })
 
-// 1. je selectionne ma tâche
-// 2. je change le statut de ma tâche
-// 4. que se passe-t-il si je ne selctionne aucune tâche ? 
 describe("toggle task done or not done", () => {
   it("toggle task is done or not if task is selected", () => {
     const { result } = renderHook(() => useTask([task1]));

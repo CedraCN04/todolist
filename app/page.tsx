@@ -10,8 +10,7 @@ import { filterTasks } from "@/lib/utils-task";
 import { Task, TypeFilter } from "@/types/types";
 import { useEffect, useState } from "react";
 
-// Continuer à implémenter le local storage
-// Externaliser quelques vues dans un composant externe
+// déplacer toute la logique de la page et les composants dans un composant externe (pour que la page soit en server component)
 
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -31,10 +30,6 @@ export default function Home() {
 
   const filteredTasks = searchTask(taskList, searchTerm);
 
-  /*   const handleUpdate = (newTask: Task) => {
-    updateTask(newTask);
-  }; */
-
   const handleAddTask = (title: string) => {
     const newTask = addTask(title);
     const tasks = JSON.parse(localStorage.getItem("tasks") || "[]");
@@ -51,6 +46,7 @@ export default function Home() {
     setTaskList(updatedTasks);
   };
 
+  // Mettre à jour une tâche + ajout d'une description dans le local storage
   const handleUpdateTask = (updatedTask: Task) => {
     const tasks = JSON.parse(localStorage.getItem("tasks") || "[]");
     const taskIndex = tasks.findIndex(
