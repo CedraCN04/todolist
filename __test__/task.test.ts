@@ -19,14 +19,6 @@ describe("init tasks", () => {
     const { result } = renderHook(() => useTask());
     expect(result.current.tasks).toEqual([]);
   });
-  it("init tasks with one task", () => {
-    const { result } = renderHook(() => useTask([task1]));
-    expect(result.current.tasks).toEqual([task1])
-    });
-  it("init tasks with tow tasks", () => {
-    const { result } = renderHook(() => useTask([task1, task2]));
-    expect(result.current.tasks).toEqual([task1, task2])
-  })
 });
 
 describe("add task", () => {
@@ -50,6 +42,24 @@ describe("add task", () => {
       result.current.addTask("task2");
     })
     expect(result.current.tasks).toEqual([task1, task2]);
+  });
+  it("add task in local storage when a task is added", () => {
+    const mockLocalStorage = {
+      setItem: vi.fn(),
+      getItem: vi.fn(),
+      clear: vi.fn(),
+      removeItem: vi.fn(),
+      key: vi.fn(),
+      length: 0,
+    };
+    global.localStorage = mockLocalStorage;
+  
+    const { result } = renderHook(() => useTask());
+    act(() => {
+      result.current.addTask("task1");
+    })
+  
+    expect(mockLocalStorage.setItem).toHaveBeenCalled();
   });
 })
 

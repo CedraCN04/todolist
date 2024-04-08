@@ -1,21 +1,43 @@
 import { Task } from "@/types/types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { newId } from "../functions";
 
 
 // mettre la logique du local storage dans ce hook
+// 1. ajouter une fonction qui lit le local storage
+// 2. ajouter une fonction qui sauvegarde le local storage
+
 
 export const useTask = (initialTask:Task[] = []) => {
 
     const [tasks, setTasks] = useState<Task[]>(initialTask);
+
+    // fonction qui va récupérer le local storage
+    const getLocalStorage = () => {
+      const tasks = localStorage.getItem("tasks");
+      if (!tasks) {
+        localStorage.setItem("tasks", JSON.stringify([]));
+      } else {
+        setTasks(JSON.parse(tasks));
+      }
+    }
+
+    useEffect(() => {
+      getLocalStorage();
+    },[]);
+
+    // fonction qui va sauvegarder le local storage
+    const saveLocalStorage = (tasks: Task[]) => {
+      localStorage.setItem("tasks", JSON.stringify(tasks));
+    }
 
     const selectTask = (id: number) => {
       return id;
     };
 
     const newTodoId = () => {
-      tasks.map((task) => task.id)
-        return newId()
+      const ids = tasks.map((task) => task.id);
+        return newId(ids)
     }
 
     const addTask = (title: string) => {
@@ -26,12 +48,14 @@ export const useTask = (initialTask:Task[] = []) => {
         done: false,
       };
       setTasks([...tasks, newTask]);
-      return newTask
+      saveLocalStorage([...tasks, newTask]);
+      return newTask;
     }
 
     const deleteTask = (id: number) => {
       const newTasks = tasks.filter((task) => task.id !== id);
       setTasks(newTasks);
+      saveLocalStorage(newTasks);
     }
 
   const updateTask = (newTask: Task) => {
@@ -42,6 +66,7 @@ export const useTask = (initialTask:Task[] = []) => {
       return task;
     });
     setTasks(newTasks);
+    saveLocalStorage(newTasks);
   }
 
     return {
