@@ -2,12 +2,6 @@ import { Task } from "@/types/types";
 import { useEffect, useState } from "react";
 import { newId } from "../functions";
 
-
-// mettre la logique du local storage dans ce hook
-// 1. ajouter une fonction qui lit le local storage
-// 2. ajouter une fonction qui sauvegarde le local storage
-
-
 export const useTask = (initialTask:Task[] = []) => {
 
     const [tasks, setTasks] = useState<Task[]>(initialTask);
@@ -22,6 +16,7 @@ export const useTask = (initialTask:Task[] = []) => {
       }
     }
 
+    // initialisation du local storage au premier rendu
     useEffect(() => {
       getLocalStorage();
     },[]);
