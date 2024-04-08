@@ -3,6 +3,8 @@ import { useState } from "react";
 import { newId } from "../functions";
 
 
+// mettre la logique du local storage dans ce hook
+
 export const useTask = (initialTask:Task[] = []) => {
 
     const [tasks, setTasks] = useState<Task[]>(initialTask);
