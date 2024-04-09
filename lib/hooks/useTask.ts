@@ -2,6 +2,8 @@ import { Task } from "@/types/types";
 import { useEffect, useState } from "react";
 import { newId } from "../functions";
 
+// externaliser le local storage 
+
 export const useTask = (initialTask:Task[] = []) => {
 
     const [tasks, setTasks] = useState<Task[]>(initialTask);
