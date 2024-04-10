@@ -1,32 +1,14 @@
 import { Task } from "@/types/types";
 import { useEffect, useState } from "react";
-import { newId } from "../functions";
-
-// externaliser le local storage 
+import { getLocalStorage, newId, saveLocalStorage } from "../functions";
 
 export const useTask = (initialTask:Task[] = []) => {
 
     const [tasks, setTasks] = useState<Task[]>(initialTask);
 
-    // fonction qui va récupérer le local storage
-    const getLocalStorage = () => {
-      const tasks = localStorage.getItem("tasks");
-      if (!tasks) {
-        localStorage.setItem("tasks", JSON.stringify([]));
-      } else {
-        setTasks(JSON.parse(tasks));
-      }
-    }
-
-    // initialisation du local storage au premier rendu
     useEffect(() => {
-      getLocalStorage();
+      getLocalStorage(setTasks);
     },[]);
-
-    // fonction qui va sauvegarder le local storage
-    const saveLocalStorage = (tasks: Task[]) => {
-      localStorage.setItem("tasks", JSON.stringify(tasks));
-    }
 
     const selectTask = (id: number) => {
       return id;
