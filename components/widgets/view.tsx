@@ -18,28 +18,34 @@ export default function View() {
 
   const filteredTasks = searchTask(tasks, searchTerm);
   return (
-    <main className="flex min-h-screen flex-col items-center gap-4 p-20">
+    <main className="flex min-h-screen flex-col items-center gap-4 w-full">
       <h1 className="text-2xl my-10">Ma liste de tâches</h1>
-      <div className="flex flex-row justify-around items-center w-4/5">
-        <div className="flex flex-row items-center gap-4 my-10">
+      <div className="w-full flex flex-col lg:flex-row lg:justify-around items-center lg:w-4/5">
+        <div className="flex flex-row items-center my-10 w-4/5 sm:w-[400px]">
           <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
         </div>
         <RadioGroup
           defaultValue="all"
-          className="flex flex-row justify-between gap-2 items-center border border-black rounded-lg p-4 my-4"
+          className="flex flex-row p-2 justify-between items-center border border-black rounded-lg my-4 w-11/12 sm:w-[400px] lg:p-4 lg:text-sm"
           // @ts-ignore
           onClick={(e) => setFilter(e.target.value)}
         >
           <RadioGroupItem value="all" id="all" />
-          <Label htmlFor="all">Toutes les tâches</Label>
+          <Label htmlFor="all" className="text-xs">
+            Toutes les tâches
+          </Label>
           <RadioGroupItem value="completed" id="completed" />
-          <Label htmlFor="completed">Complétées</Label>
+          <Label htmlFor="completed" className="text-xs">
+            Complétées
+          </Label>
           <RadioGroupItem value="no-completed" id="no-completed" />
-          <Label htmlFor="no-completed">Non complétées</Label>
+          <Label htmlFor="no-completed" className="text-xs">
+            Non complétées
+          </Label>
         </RadioGroup>
       </div>
       <AddTask onAdd={addTask} />
-      <ul className="w-3/5 my-10 flex flex-col items-center gap-4">
+      <ul className="w-11/12 my-10 flex flex-col items-center gap-4 md:w-3/5">
         {filteredTasks
           .filter((task) => filterTasks(task, filter))
           .map((task) => (

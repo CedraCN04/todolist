@@ -41,11 +41,11 @@ export default function TaskView({
   return (
     <li
       className={cn(
-        "text-base border flex flex-col items-center border-gray-500 rounded-lg p-4 w-full",
+        "text-base border flex flex-col items-center border-gray-500 rounded-lg p-4 w-full lg:w-3/5",
         task.done ? "line-through" : ""
       )}
     >
-      <div className="w-full flex flex-row items-center justify-between">
+      <div className="w-full flex flex-col items-start gap-6 lg:flex-row lg:items-center lg:justify-between">
         <div className="flex flex-row justify-between items-center">
           <input
             type="checkbox"
@@ -60,7 +60,7 @@ export default function TaskView({
             )}
           </div>
         </div>
-        <div className="flex flex-row justify-between gap-4 ">
+        <div className="flex flex-row justify-between gap-4 self-center w-2/5">
           <Button
             className="bg-blue-400 hover:bg-blue-500 text-black"
             onClick={() => setIsEditing(true)}

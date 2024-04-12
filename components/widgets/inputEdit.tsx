@@ -17,26 +17,29 @@ export function EditTitle({ task, onEditTitle, onCancelEdit }: TitleProps) {
   };
 
   return (
-    <>
+    <div className="flex flex-col items-start gap-2 w-full lg:flex-row">
       <Input
         placeholder="Modifier la tâche"
         value={title}
         onChange={handleChange}
+        className="lg:w-9/12"
       />
-      <Button
-        onClick={() => onEditTitle(title)}
-        className=" bg-green-400 hover:bg-green-500 text-black"
-        disabled={!title}
-      >
-        Modifier
-      </Button>
-      <Button
-        onClick={() => onCancelEdit()}
-        className=" bg-red-400 hover:bg-red-500 text-black"
-      >
-        Annuler
-      </Button>
-    </>
+      <div className="flex flex-row justify-around w-full lg:gap-3 lg:w-1/6 lg:justify-between">
+        <Button
+          onClick={() => onEditTitle(title)}
+          className=" bg-green-400 hover:bg-green-500 text-black"
+          disabled={!title}
+        >
+          Modifier
+        </Button>
+        <Button
+          onClick={() => onCancelEdit()}
+          className=" bg-red-400 hover:bg-red-500 text-black"
+        >
+          Annuler
+        </Button>
+      </div>
+    </div>
   );
 }
 

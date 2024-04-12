@@ -16,7 +16,7 @@ export function Description({ task, addDescription }: DescriptionProps) {
   };
 
   return (
-    <div className="relative w-full flex flex-row justify-between items-center gap-2">
+    <div className="relative w-full flex flex-col lg:flex-row lg:justify-between items-center gap-2">
       <Input
         value={description}
         onChange={handleChange}
