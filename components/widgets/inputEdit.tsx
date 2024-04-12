@@ -24,7 +24,7 @@ export function EditTitle({ task, onEditTitle, onCancelEdit }: TitleProps) {
         onChange={handleChange}
         className="lg:w-9/12"
       />
-      <div className="flex flex-row justify-around w-full lg:gap-3 lg:w-1/6 lg:justify-between">
+      <div className="flex flex-row justify-around w-full lg:gap-3 lg:w-2/6 lg:justify-between">
         <Button
           onClick={() => onEditTitle(title)}
           className=" bg-green-400 hover:bg-green-500 text-black"

@@ -21,7 +21,7 @@ export const AddTask = ({ onAdd }: AddTaskProps) => {
   };
 
   return (
-    <div className="flex flex-row items-center justify-around w-11/12 lg:w-2/5">
+    <div className="flex flex-row items-center justify-around w-11/12 lg:w-3/5">
       <Input
         placeholder="Ajoutez une tâche"
         value={title}
