@@ -5,16 +5,13 @@ export const newId = (ids: number[]) => {
 }
 
 // fonction qui va récupérer le local storage
-export const getLocalStorage = (setTasks: (tasks: Task[]) => void) => {
-    const tasks = localStorage.getItem("tasks");
-    if (!tasks) {
-      localStorage.setItem("tasks", JSON.stringify([]));
-    } else {
-      setTasks(JSON.parse(tasks));
-    }
+export const getLocalStorage = (): Task[] => {
+  const tasks = localStorage.getItem("tasks")
+  if (!tasks) return []
+    return JSON.parse(tasks)
 }
 
-  // fonction qui va sauvegarder le local storage
+// fonction qui va sauvegarder le local storage
 export const saveLocalStorage = (tasks: Task[]) => {
-    localStorage.setItem("tasks", JSON.stringify(tasks));
+  localStorage.setItem("tasks", JSON.stringify(tasks));
 }

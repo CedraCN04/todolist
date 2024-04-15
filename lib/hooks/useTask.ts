@@ -7,7 +7,10 @@ export const useTask = (initialTask:Task[] = []) => {
     const [tasks, setTasks] = useState<Task[]>(initialTask);
 
     useEffect(() => {
-      getLocalStorage(setTasks);
+      const getTasks = getLocalStorage();
+      if (getTasks) {
+        setTasks(getTasks);
+      }
     },[]);
 
     const selectTask = (id: number) => {
