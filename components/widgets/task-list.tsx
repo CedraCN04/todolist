@@ -2,15 +2,15 @@
 
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { AddTask } from "@/components/widgets/addTask";
 import { SearchBar, searchTask } from "@/components/widgets/inputSearch";
-import TaskView from "@/components/widgets/taskView";
 import { useTask } from "@/lib/hooks/useTask";
 import { filterTasks } from "@/lib/utils-task";
 import { TypeFilter } from "@/types/types";
 import { useState } from "react";
+import { AddTask } from "./addTask";
+import TaskView from "./taskView";
 
-export default function View() {
+export default function TasksList() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState<TypeFilter>("all");
 
@@ -26,26 +26,26 @@ export default function View() {
         </div>
         <RadioGroup
           defaultValue="all"
-          className="flex flex-row p-2 justify-between items-center border border-black rounded-lg my-4 w-11/12 sm:w-[400px] lg:p-4 lg:text-sm"
+          className="flex flex-col p-4 gap-4 justify-between items-start border border-black rounded-lg my-4 sm:flex-row"
           // @ts-ignore
           onClick={(e) => setFilter(e.target.value)}
         >
-          <RadioGroupItem value="all" id="all" />
-          <Label htmlFor="all" className="text-xs">
-            Toutes les tâches
-          </Label>
-          <RadioGroupItem value="completed" id="completed" />
-          <Label htmlFor="completed" className="text-xs">
-            Complétées
-          </Label>
-          <RadioGroupItem value="no-completed" id="no-completed" />
-          <Label htmlFor="no-completed" className="text-xs">
-            Non complétées
-          </Label>
+          <div className="flex flex-row gap-2 items-center">
+            <RadioGroupItem value="all" id="all" />
+            <Label htmlFor="all">Toutes les tâches</Label>
+          </div>
+          <div className="flex flex-row gap-2 items-center">
+            <RadioGroupItem value="completed" id="completed" />
+            <Label htmlFor="completed">Complétées</Label>
+          </div>
+          <div className="flex flex-row gap-2 items-center">
+            <RadioGroupItem value="no-completed" id="no-completed" />
+            <Label htmlFor="no-completed">Non complétées</Label>
+          </div>
         </RadioGroup>
       </div>
       <AddTask onAdd={addTask} />
-      <ul className="w-11/12 my-10 flex flex-col items-center gap-4 md:w-3/5">
+      <ul className="w-11/12 my-10 flex flex-col items-center gap-4 md:w-[700px]">
         {filteredTasks
           .filter((task) => filterTasks(task, filter))
           .map((task) => (

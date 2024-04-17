@@ -1,9 +1,17 @@
-import View from "@/components/widgets/view";
+import TasksList from "@/components/widgets/task-list";
+/* import { supabase } from "@/lib/supabase/server"; */
 
-export default function Home() {
+/* const getTaskList = async () => {
+  const { data } = await supabase.from("tasksList").select("*");
+  return data;
+}; */
+
+export default async function Home() {
+  /*   const taskList = await getTaskList(); */
+
   return (
     <>
-      <View />
+      <TasksList />
     </>
   );
 }
