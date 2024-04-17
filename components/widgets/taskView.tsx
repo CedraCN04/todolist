@@ -3,6 +3,8 @@
 import { cn } from "@/lib/utils";
 import { Task } from "@/types/types";
 import { useState } from "react";
+import { MdModeEdit } from "react-icons/md";
+import { RxCrossCircled } from "react-icons/rx";
 import { Button } from "../ui/button";
 import { Description } from "./inputDescription";
 import { EditTitle } from "./inputEdit";
@@ -45,7 +47,7 @@ export default function TaskView({
         task.done ? "line-through" : ""
       )}
     >
-      <div className="w-full flex flex-col items-start gap-6 lg:flex-row lg:items-center lg:justify-between">
+      <div className="w-full flex flex-row items-center justify-between">
         <div className="flex flex-row justify-between items-center">
           <input
             type="checkbox"
@@ -56,22 +58,24 @@ export default function TaskView({
           <div className="flex flex-col gap-2">
             {task.title}
             {task.description && (
-              <span className="text-sm text-gray-600">{task.description}</span>
+              <span className="text-sm text-gray-600 w-4/5">
+                {task.description}
+              </span>
             )}
           </div>
         </div>
-        <div className="flex flex-row justify-between gap-4 self-center w-2/5 lg:w-2/6">
+        <div className="flex flex-row justify-between self-center w-[120px] gap-2">
           <Button
             className="bg-blue-400 hover:bg-blue-500 text-black"
             onClick={() => setIsEditing(true)}
           >
-            Editer
+            <MdModeEdit className="text-xl" />
           </Button>
           <Button
             className="bg-red-400 hover:bg-red-500 text-black"
             onClick={() => deleteTask(task.id)}
           >
-            Supprimer
+            <RxCrossCircled className="text-xl" />
           </Button>
         </div>
       </div>

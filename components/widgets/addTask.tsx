@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { IoAddCircleOutline } from "react-icons/io5";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 
@@ -21,7 +22,7 @@ export const AddTask = ({ onAdd }: AddTaskProps) => {
   };
 
   return (
-    <div className="flex flex-row items-center justify-around w-11/12 lg:w-3/5">
+    <div className="flex flex-row items-center justify-around w-11/12 lg:w-[700px]">
       <Input
         placeholder="Ajoutez une tâche"
         value={title}
@@ -33,7 +34,7 @@ export const AddTask = ({ onAdd }: AddTaskProps) => {
         className="mx-4 bg-green-400 hover:bg-green-500 text-black"
         disabled={!title}
       >
-        Ajoutez
+        <IoAddCircleOutline className="text-2xl" />
       </Button>
     </div>
   );

@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { IoClose } from "react-icons/io5";
+import { IoAddCircleOutline, IoClose } from "react-icons/io5";
+import { MdModeEdit } from "react-icons/md";
 import { Task } from "../../types/types";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
@@ -16,7 +17,7 @@ export function Description({ task, addDescription }: DescriptionProps) {
   };
 
   return (
-    <div className="relative w-full flex flex-col lg:flex-row lg:justify-between items-center gap-2">
+    <div className="relative w-full flex flex-row justify-between items-center gap-2">
       <Input
         value={description}
         onChange={handleChange}
@@ -25,7 +26,7 @@ export function Description({ task, addDescription }: DescriptionProps) {
       {description && (
         <IoClose
           onClick={() => setDescription("")}
-          className="cursor-pointer absolute right-28 top-3"
+          className="cursor-pointer absolute text-xl mx-2 right-16 top-3"
         />
       )}
 
@@ -33,7 +34,11 @@ export function Description({ task, addDescription }: DescriptionProps) {
         onClick={() => addDescription(description)}
         className="bg-blue-400 hover:bg-blue-500 text-black"
       >
-        {task.description ? "Modifier" : "Ajouter"}
+        {task.description ? (
+          <MdModeEdit className="text-xl" />
+        ) : (
+          <IoAddCircleOutline className="text-2xl" />
+        )}
       </Button>
     </div>
   );
