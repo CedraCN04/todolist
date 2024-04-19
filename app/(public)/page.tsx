@@ -9,6 +9,7 @@ const getTaskList = async () => {
 
 export default async function Home() {
   const taskList = await getTaskList();
+  console.log(taskList);
 
   return (
     <>
