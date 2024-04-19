@@ -3,17 +3,16 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { signInWithPassword, signUpWithPassword } from "@/lib/auth/actions";
-import { useQueryParams } from "@/lib/hooks/useQueryParams";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useState, useTransition } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 export default function AuthComponent() {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
-  // const query = useSearchParams().get("query");
-  const { query } = useQueryParams();
+  const query = useSearchParams().get("query");
 
   const signin = query === "signin";
 
