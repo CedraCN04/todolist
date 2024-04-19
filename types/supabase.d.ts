@@ -14,21 +14,21 @@ export type Database = {
           description: string | null
           id: number
           is_completed: boolean
-          title: string
+          name: string
           user_id: string
         }
         Insert: {
           description?: string | null
           id?: number
           is_completed?: boolean
-          title: string
+          name: string
           user_id: string
         }
         Update: {
           description?: string | null
           id?: number
           is_completed?: boolean
-          title?: string
+          name?: string
           user_id?: string
         }
         Relationships: [
