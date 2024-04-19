@@ -1,7 +1,7 @@
 "use server";
 
 import { Database } from "@/types/supabase";
-import { CookieOptions, createServerClient } from "@supabase/ssr";
+import { type CookieOptions, createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
 export const createActionServer = () => {

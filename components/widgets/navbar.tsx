@@ -16,7 +16,7 @@ export default function NavBar() {
   };
 
   return (
-    <div className="flex justify-end gap-4">
+    <div className="flex justify-end gap-4 m-4">
       <form>
         <Button
           disabled={isPending}
