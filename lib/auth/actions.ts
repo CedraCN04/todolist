@@ -5,10 +5,13 @@ import { createActionServer } from "../supabase/actions";
 
 export const signUpWithPassword = async (data: FormData) => {
   const supabase = await createActionServer();
+
+  const email = data.get("email") as string;
+  const password = data.get("password") as string;
   
   const { error } = await supabase.auth.signUp({
-    email: data.get("email") as string,
-    password: data.get("password") as string,
+    email,
+    password,
   });
   if (error) {
     throw error;
