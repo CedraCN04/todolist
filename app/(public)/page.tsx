@@ -1,19 +1,12 @@
 import TasksList from "@/components/widgets/task-list";
-import { createClientServer } from "@/lib/supabase/server";
-
-const getTaskList = async () => {
-  const supabase = createClientServer();
-  const { data } = await supabase.from("tasksList").select("*");
-  return data;
-};
+import { useGetTaskList } from "@/lib/hooks/get";
 
 export default async function Home() {
-  const taskList = await getTaskList();
-  console.log(taskList);
+  const taskList = await useGetTaskList();
 
   return (
     <>
-      <TasksList />
+      <TasksList taskList={taskList} />
     </>
   );
 }

@@ -5,18 +5,22 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { SearchBar, searchTask } from "@/components/widgets/inputSearch";
 import { useTask } from "@/lib/hooks/useTask";
 import { filterTasks } from "@/lib/utils-task";
-import { TypeFilter } from "@/types/types";
+import { TaskList, TypeFilter } from "@/types/types";
 import { useState } from "react";
 import { AddTask } from "./addTask";
 import TaskView from "./taskView";
 
-export default function TasksList() {
+type TasksListProps = {
+  taskList: TaskList;
+};
+
+export default function TasksList({ taskList }: TasksListProps) {
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState<TypeFilter>("all");
 
-  const { addTask, updateTask, deleteTask, tasks } = useTask();
+  const { addTask, updateTask, deleteTask } = useTask();
 
-  const filteredTasks = searchTask(tasks, searchTerm);
+  const filteredTasks = searchTask(taskList, searchTerm);
   return (
     <main className="flex min-h-screen flex-col items-center gap-4 w-full">
       <h1 className="text-2xl my-10">Ma liste de tâches</h1>
@@ -47,11 +51,11 @@ export default function TasksList() {
       <AddTask onAdd={addTask} />
       <ul className="w-11/12 my-10 flex flex-col items-center gap-4 md:w-[700px]">
         {filteredTasks
-          .filter((task) => filterTasks(task, filter))
-          .map((task) => (
+          .filter((task: TaskList) => filterTasks(task, filter))
+          .map((task: TaskList) => (
             <TaskView
               key={task.id}
-              task={task}
+              taskList={task}
               updateTask={updateTask}
               deleteTask={deleteTask}
             />

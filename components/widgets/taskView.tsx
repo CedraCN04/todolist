@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { Task } from "@/types/types";
+import { TaskList } from "@/types/types";
 import { useState } from "react";
 import { MdModeEdit } from "react-icons/md";
 import { RxCrossCircled } from "react-icons/rx";
@@ -10,13 +10,14 @@ import { Description } from "./inputDescription";
 import { EditTitle } from "./inputEdit";
 
 type TaskViewProps = {
-  task: Task;
-  updateTask: (task: Task) => void;
+  //task: Task;
+  taskList: TaskList;
+  updateTask: (taskList: TaskList) => void;
   deleteTask: (id: number) => void;
 };
 
 export default function TaskView({
-  task,
+  taskList,
   updateTask,
   deleteTask,
 }: TaskViewProps) {
@@ -24,17 +25,17 @@ export default function TaskView({
 
   const handleAddDescription = (description: string) => {
     const newTask = {
-      ...task,
+      ...taskList,
       description,
     };
     updateTask(newTask);
     setIsEditing(false);
   };
 
-  const editTaskTitle = (title: string) => {
+  const editTaskTitle = (name: string) => {
     const newTask = {
-      ...task,
-      title,
+      ...taskList,
+      name,
     };
     updateTask(newTask);
     setIsEditing(false);
@@ -44,22 +45,24 @@ export default function TaskView({
     <li
       className={cn(
         "text-base border flex flex-col items-center border-gray-500 rounded-lg p-4 w-full",
-        task.done ? "line-through" : ""
+        taskList.is_completed ? "line-through" : ""
       )}
     >
       <div className="w-full flex flex-row items-center justify-between">
         <div className="flex flex-row justify-between items-center">
           <input
             type="checkbox"
-            checked={task.done}
-            onChange={() => updateTask({ ...task, done: !task.done })}
+            checked={taskList.is_completed}
+            onChange={() =>
+              updateTask({ ...taskList, is_completed: !taskList.is_completed })
+            }
             className="mr-4 cursor-pointer"
           />
           <div className="flex flex-col gap-2">
-            {task.title}
-            {task.description && (
+            {taskList.name}
+            {taskList.description && (
               <span className="text-sm text-gray-600 w-4/5">
-                {task.description}
+                {taskList.description}
               </span>
             )}
           </div>
@@ -73,7 +76,7 @@ export default function TaskView({
           </Button>
           <Button
             className="bg-red-400 hover:bg-red-500 text-black"
-            onClick={() => deleteTask(task.id)}
+            onClick={() => deleteTask(taskList.id)}
           >
             <RxCrossCircled className="text-xl" />
           </Button>
@@ -83,13 +86,16 @@ export default function TaskView({
         <>
           <div className="flex flex-row items-center justify-around w-full gap-2 my-4">
             <EditTitle
-              task={task}
+              task={taskList}
               onEditTitle={editTaskTitle}
               onCancelEdit={() => setIsEditing(false)}
             />
           </div>
           <div className="flex flex-row justify-between items-center w-full">
-            <Description task={task} addDescription={handleAddDescription} />
+            <Description
+              task={taskList}
+              addDescription={handleAddDescription}
+            />
           </div>
         </>
       )}

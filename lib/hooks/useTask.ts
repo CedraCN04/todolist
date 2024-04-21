@@ -22,12 +22,12 @@ export const useTask = (initialTask:Task[] = []) => {
         return newId(ids)
     }
 
-    const addTask = (title: string) => {
-      if (!title) return;
+    const addTask = (name: string) => {
+      if (!name) return;
       const newTask = {
         id: newTodoId(),
-        title: title,
-        done: false,
+        name: name,
+        is_completed: false,
       };
       setTasks([...tasks, newTask]);
       saveLocalStorage([...tasks, newTask]);
