@@ -30,6 +30,7 @@ export const signInWithPassword = async (data: FormData) => {
   if (error) {
     throw error;
   }
+  
   redirect("/");
 }
 
