@@ -5,7 +5,7 @@ export type Task = {
   name: string;
   description?: string | null;
   is_completed: boolean;
-  user_id: string;
+  user_id?: string;
 };
 
 export type TypeFilter = "all" | "no-completed" | "completed";
