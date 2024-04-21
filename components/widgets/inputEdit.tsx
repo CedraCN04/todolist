@@ -7,12 +7,12 @@ import { Button } from "../ui/button";
 
 type TitleProps = {
   task: Task;
-  onEditTitle: (title: string) => void;
+  onEditTitle: (name: string) => void;
   onCancelEdit: () => void;
 };
 
-export function EditTitle({ task, onEditTitle, onCancelEdit }: TitleProps) {
-  const [title, setTitle] = useState(task.title);
+export function EditTitle({ task, onEditTitle }: TitleProps) {
+  const [title, setTitle] = useState(task.name);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
