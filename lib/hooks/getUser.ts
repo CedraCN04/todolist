@@ -4,6 +4,6 @@ import { createClientServer } from "../supabase/server";
 
 export const useGetUser = async (user_id: string) => {
   const supabase = createClientServer();
-  const { data } = await supabase.from("tasksList").select().eq("user_id", user_id);
+  const { data } = await supabase.from("tasksList").select();
   return data;
 }

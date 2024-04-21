@@ -1,10 +1,7 @@
 import { createClientServer } from "@/lib/supabase/server";
-import { TaskList } from "@/types/types";
-import { useGetUser } from "./getUser";
 
-export const useGetTaskList = async (user_id:TaskList) => {
-  const userId = useGetUser(user_id);
+export const useGetTaskList = async () => {
   const supabase = createClientServer();
-  const { data } = await supabase.from("tasksList").select().eq("user_id", userId);
+  const { data } = await supabase.from("tasksList").select()
   return data;
 };
