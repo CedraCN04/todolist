@@ -4,23 +4,24 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { SearchBar, searchTask } from "@/components/widgets/inputSearch";
 import { useTask } from "@/lib/hooks/useTask";
-import { filterTasks } from "@/lib/utils-task";
-import { TaskList, TypeFilter } from "@/types/types";
+import { Task, TypeFilter } from "@/types/types";
 import { useState } from "react";
 import { AddTask } from "./addTask";
 import TaskView from "./taskView";
 
 type TasksListProps = {
-  taskList: TaskList;
+  task: Task;
 };
 
-export default function TasksList({ taskList }: TasksListProps) {
+export default function TasksList({ task }: TasksListProps) {
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState<TypeFilter>("all");
 
-  const { addTask, updateTask, deleteTask } = useTask();
+  const { addTask, updateTask, deleteTask, tasks, getFilteredTasks } =
+    useTask(task);
 
-  const filteredTasks = searchTask(taskList, searchTerm);
+  const filteredTasks = searchTask(tasks, searchTerm);
+
   return (
     <main className="flex min-h-screen flex-col items-center gap-4 w-full">
       <h1 className="text-2xl my-10">Ma liste de tâches</h1>
@@ -50,16 +51,14 @@ export default function TasksList({ taskList }: TasksListProps) {
       </div>
       <AddTask onAdd={addTask} />
       <ul className="w-11/12 my-10 flex flex-col items-center gap-4 md:w-[700px]">
-        {filteredTasks
-          .filter((task: TaskList) => filterTasks(task, filter))
-          .map((task: TaskList) => (
-            <TaskView
-              key={task.id}
-              taskList={task}
-              updateTask={updateTask}
-              deleteTask={deleteTask}
-            />
-          ))}
+        {getFilteredTasks(filteredTasks, filter).map((task: Task) => (
+          <TaskView
+            key={task.id}
+            taskList={task}
+            updateTask={updateTask}
+            deleteTask={deleteTask}
+          />
+        ))}
       </ul>
     </main>
   );

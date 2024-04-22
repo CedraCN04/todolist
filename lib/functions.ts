@@ -4,6 +4,7 @@ export const newId = (ids: number[]) => {
     return Math.max(...ids, 0) + 1 
 }
 
+
 // fonction qui va récupérer le local storage
 export const getLocalStorage = (): Task[] => {
   const tasks = localStorage.getItem("tasks")

@@ -1,12 +1,12 @@
 import TasksList from "@/components/widgets/task-list";
-import { useGetTaskList } from "@/lib/hooks/get";
+import { useGetTaskList } from "@/lib/task/getTask";
 
 export default async function Home() {
   const taskList = await useGetTaskList();
 
   return (
     <>
-      <TasksList taskList={taskList} />
+      <TasksList task={taskList} />
     </>
   );
 }

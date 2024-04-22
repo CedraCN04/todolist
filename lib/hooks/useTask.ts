@@ -1,17 +1,23 @@
-import { Task } from "@/types/types";
-import { useEffect, useState } from "react";
-import { getLocalStorage, newId, saveLocalStorage } from "../functions";
+import { Task, TypeFilter } from "@/types/types";
+import { useState } from "react";
+import { newId, saveLocalStorage } from "../functions";
+import { addTaskToDataBase } from "../task/action";
+import { filterTasks } from "../utils-task";
 
 export const useTask = (initialTask:Task[] = []) => {
 
     const [tasks, setTasks] = useState<Task[]>(initialTask);
 
-    useEffect(() => {
+     const getFilteredTasks = (filteredTasks: Task[], filter: TypeFilter) => {
+      return filteredTasks.filter((initialTask: Task) => filterTasks(initialTask, filter));
+    };
+
+    /* useEffect(() => {
       const getTasks = getLocalStorage();
       if (getTasks) {
         setTasks(getTasks);
       }
-    },[]);
+    },[]); */
 
     const selectTask = (id: number) => {
       return id;
@@ -22,7 +28,7 @@ export const useTask = (initialTask:Task[] = []) => {
         return newId(ids)
     }
 
-    const addTask = (name: string) => {
+    const addTask = async(name: string) => {
       if (!name) return;
       const newTask = {
         id: newTodoId(),
@@ -30,7 +36,11 @@ export const useTask = (initialTask:Task[] = []) => {
         is_completed: false,
       };
       setTasks([...tasks, newTask]);
-      saveLocalStorage([...tasks, newTask]);
+      const saveDatabase = await addTaskToDataBase(name);
+      if (saveDatabase) {
+        return saveDatabase;
+      }
+      //saveLocalStorage([...tasks, newTask]);
       return newTask;
     }
 
@@ -57,7 +67,8 @@ export const useTask = (initialTask:Task[] = []) => {
         deleteTask,
         updateTask,
         selectTask,
-        newTodoId
+        newTodoId,
+        getFilteredTasks
     }
     
 }

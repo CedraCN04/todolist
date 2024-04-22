@@ -4,14 +4,14 @@ import { Task } from "../types/types";
 
 const task1: Task = {
   id: 1,
-    title: "task1",
-    done: false,
+    name: "task1",
+    is_completed: false,
 }
 
 const task2: Task = {
     id : 2,
-    title: "task2",
-    done: false,
+    name: "task2",
+    is_completed: false,
 }
 
 describe("init tasks", () => {
