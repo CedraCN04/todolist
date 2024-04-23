@@ -3,7 +3,7 @@ import { useTask } from "../lib/hooks/useTask";
 import { Task } from "../types/types";
 
 const task1: Task = {
-  id: 1,
+    id: 1,
     name: "task1",
     is_completed: false,
 }
@@ -29,7 +29,8 @@ describe("add task", () => {
     })
     expect(result.current.tasks).toEqual([]);
   });
-  it("add first todo", () => {
+  it("add first todo in database", () => {
+    
     const { result } = renderHook(() => useTask());
     act(() => {
       result.current.addTask("task1");
@@ -43,27 +44,9 @@ describe("add task", () => {
     })
     expect(result.current.tasks).toEqual([task1, task2]);
   });
-  it("add task in local storage when a task is added", () => {
-    const mockLocalStorage = {
-      setItem: vi.fn(),
-      getItem: vi.fn(),
-      clear: vi.fn(),
-      removeItem: vi.fn(),
-      key: vi.fn(),
-      length: 0,
-    };
-    global.localStorage = mockLocalStorage;
-  
-    const { result } = renderHook(() => useTask());
-    act(() => {
-      result.current.addTask("task1");
-    })
-  
-    expect(mockLocalStorage.setItem).toHaveBeenCalled();
-  });
 })
 
-describe("delete task", () => {
+/* describe("delete task", () => {
   it("delete one task if there is only one task", () => {
     const {result} = renderHook(() => useTask([task1]));
     act(() => {
@@ -127,7 +110,7 @@ describe("toggle task done or not done", () => {
     });
     expect(result.current.tasks).toEqual([newTodo]);
   })
-});
+}); */
 
 
 

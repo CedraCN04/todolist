@@ -1,6 +1,6 @@
 import { Task, TypeFilter } from "@/types/types";
 import { useState } from "react";
-import { newId, saveLocalStorage } from "../functions";
+import { newId } from "../functions";
 import { addTaskToDataBase } from "../task/action";
 import { filterTasks } from "../utils-task";
 
@@ -8,7 +8,7 @@ export const useTask = (initialTask:Task[] = []) => {
 
     const [tasks, setTasks] = useState<Task[]>(initialTask);
 
-     const getFilteredTasks = (filteredTasks: Task[], filter: TypeFilter) => {
+    const getFilteredTasks = (filteredTasks: Task[], filter: TypeFilter) => {
       return filteredTasks.filter((initialTask: Task) => filterTasks(initialTask, filter));
     };
 
@@ -38,7 +38,7 @@ export const useTask = (initialTask:Task[] = []) => {
       const saveDatabase = await addTaskToDataBase(name);
       if (saveDatabase) {
         setTasks([...tasks, newTask]);
-        return saveDatabase;
+        return saveDatabase
       }
       //saveLocalStorage([...tasks, newTask]);
       return newTask;
@@ -47,7 +47,7 @@ export const useTask = (initialTask:Task[] = []) => {
     const deleteTask = (id: number) => {
       const newTasks = tasks.filter((task) => task.id !== id);
       setTasks(newTasks);
-      saveLocalStorage(newTasks);
+      //saveLocalStorage(newTasks);
     }
 
   const updateTask = (newTask: Task) => {
@@ -58,7 +58,7 @@ export const useTask = (initialTask:Task[] = []) => {
       return task;
     });
     setTasks(newTasks);
-    saveLocalStorage(newTasks);
+    //saveLocalStorage(newTasks);
   }
 
     return {

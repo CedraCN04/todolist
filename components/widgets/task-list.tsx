@@ -13,7 +13,7 @@ type TasksListProps = {
   task: Task;
 };
 
-export default function TasksList({ task }: TasksListProps) {
+export default function TaskList({ task }: TasksListProps) {
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState<TypeFilter>("all");
 
@@ -54,7 +54,7 @@ export default function TasksList({ task }: TasksListProps) {
         {getFilteredTasks(filteredTasks, filter).map((task: Task) => (
           <TaskView
             key={task.id}
-            taskList={task}
+            task={task}
             updateTask={updateTask}
             deleteTask={deleteTask}
           />
