@@ -1,11 +1,6 @@
-import { Task } from "@/types/types"
 
 export const newId = (ids: number[]) => {
     return Math.max(...ids, 0) + 1 
-}
-
-export const idDataBase = (tasks: Task[]) => {
-    return tasks.map((task) => task.id)
 }
 
 /* 

@@ -32,14 +32,12 @@ export const useTask = (initialTask:Task[] = []) => {
       //if (!name) return;
       const newTask = {
         id: newTodoId(),
-        name: name,
+        name,
         is_completed: false,
-      };
-      const saveDatabase = await addTaskToDataBase(name);
-      if (saveDatabase) {
-        setTasks([...tasks, newTask]);
-        return saveDatabase
       }
+      const saveDatabase = await addTaskToDataBase(name);
+      if (saveDatabase) return;
+      setTasks([...tasks, newTask]);
       //saveLocalStorage([...tasks, newTask]);
       return newTask;
     }
