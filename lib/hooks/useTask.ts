@@ -29,15 +29,15 @@ export const useTask = (initialTask:Task[] = []) => {
     }
 
     const addTask = async(name: string) => {
-      if (!name) return;
+      //if (!name) return;
       const newTask = {
         id: newTodoId(),
         name: name,
         is_completed: false,
       };
-      setTasks([...tasks, newTask]);
       const saveDatabase = await addTaskToDataBase(name);
       if (saveDatabase) {
+        setTasks([...tasks, newTask]);
         return saveDatabase;
       }
       //saveLocalStorage([...tasks, newTask]);

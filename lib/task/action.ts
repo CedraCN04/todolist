@@ -6,7 +6,7 @@ import { createActionServer } from "../supabase/actions"
 export const addTaskToDataBase = async(name:string) => {
   if(!name) {
     return {
-      message: "Le nom est obligatoire"
+      message: "Le nom de la tâche est obligatoire"
     }
   }
   const supabase = await createActionServer()
