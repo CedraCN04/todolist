@@ -10,7 +10,6 @@ import { Description } from "./inputDescription";
 import { EditTitle } from "./inputEdit";
 
 type TaskViewProps = {
-  //task: Task;
   task: Task;
   updateTask: (task: Task) => void;
   deleteTask: (id: number) => void;

@@ -9,11 +9,11 @@ type SearchBarProps = {
 };
 
 // Fonction pour rechercher une tâche
-export function searchTask(task: Task, searchTerm: string) {
-  if (!task) {
+export function searchTask(tasks: Task, searchTerm: string) {
+  if (!tasks) {
     return [];
   }
-  return task.filter((task: Task) => {
+  return tasks.filter((task: Task) => {
     return (
       task.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       (task.description &&

@@ -48,14 +48,14 @@ export const useTask = (initialTask:Task[] = []) => {
     }
 
   const updateTask = async(newTask: Task) => {
+    const errorDatabase = await updateTaskinDatabase(newTask);
+    if(errorDatabase) return errorDatabase.message
     const newTasks = tasks.map((task) => {
       if (task.id === newTask.id) {
         return { ...task, ...newTask};
       }
       return task;
     });
-    const errorDatabase = await updateTaskinDatabase(newTask);
-    if(errorDatabase) return errorDatabase.message
     setTasks(newTasks);
   }
 
