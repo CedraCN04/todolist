@@ -37,16 +37,17 @@ export const deleteTaskInDataBase = async(id:number) => {
   }
 }
 
-// Modification du nom de la tâche dans la base de données
+// Modification du nom de la tâche dans la base de données et de son état
 export const updateTaskinDatabase = async(newTask: Task) => {
   const supabase = await createActionServer()
   const {data: {user}} = await supabase.auth.getUser()
   if(!user) return {
     message: "Vous devez être connecté"
   }
-  const { error } = await supabase.from("Task").update({name: newTask.name}).match({id: newTask.id})
+  const { error } = await supabase.from("Task").update({name: newTask.name, is_completed:newTask.is_completed}).match({id: newTask.id})
   
   if(error) return {
     message: "Une erreur est survenue"
   }
 }
+
