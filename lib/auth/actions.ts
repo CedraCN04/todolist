@@ -17,7 +17,6 @@ export const signUpWithPassword = async (data: FormData) => {
     throw error;
   }
   redirect("/");
-
 }
 
 export const signInWithPassword = async (data: FormData) => {

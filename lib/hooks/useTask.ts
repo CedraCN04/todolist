@@ -1,17 +1,23 @@
-import { Task } from "@/types/types";
-import { useEffect, useState } from "react";
-import { getLocalStorage, newId, saveLocalStorage } from "../functions";
+import { Task, TypeFilter } from "@/types/types";
+import { useState } from "react";
+import { newId } from "../functions";
+import { addTaskToDataBase } from "../task/action";
+import { filterTasks } from "../utils-task";
 
 export const useTask = (initialTask:Task[] = []) => {
 
     const [tasks, setTasks] = useState<Task[]>(initialTask);
 
-    useEffect(() => {
+    const getFilteredTasks = (filteredTasks: Task[], filter: TypeFilter) => {
+      return filteredTasks.filter((initialTask: Task) => filterTasks(initialTask, filter));
+    };
+
+    /* useEffect(() => {
       const getTasks = getLocalStorage();
       if (getTasks) {
         setTasks(getTasks);
       }
-    },[]);
+    },[]); */
 
     const selectTask = (id: number) => {
       return id;
@@ -22,22 +28,22 @@ export const useTask = (initialTask:Task[] = []) => {
         return newId(ids)
     }
 
-    const addTask = (name: string) => {
-      if (!name) return;
+    const addTask = async(name: string) => {
       const newTask = {
         id: newTodoId(),
-        name: name,
+        name,
         is_completed: false,
-      };
+      }
+      const errorDatabase = await addTaskToDataBase(name);
+      if (errorDatabase) return errorDatabase.message
       setTasks([...tasks, newTask]);
-      saveLocalStorage([...tasks, newTask]);
       return newTask;
     }
 
     const deleteTask = (id: number) => {
       const newTasks = tasks.filter((task) => task.id !== id);
       setTasks(newTasks);
-      saveLocalStorage(newTasks);
+      //saveLocalStorage(newTasks);
     }
 
   const updateTask = (newTask: Task) => {
@@ -48,7 +54,7 @@ export const useTask = (initialTask:Task[] = []) => {
       return task;
     });
     setTasks(newTasks);
-    saveLocalStorage(newTasks);
+    //saveLocalStorage(newTasks);
   }
 
     return {
@@ -57,7 +63,8 @@ export const useTask = (initialTask:Task[] = []) => {
         deleteTask,
         updateTask,
         selectTask,
-        newTodoId
+        newTodoId,
+        getFilteredTasks
     }
     
 }

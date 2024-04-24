@@ -1,4 +1,4 @@
-import { TaskList } from "@/types/types";
+import { Task } from "@/types/types";
 import { FaSearch } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import { Input } from "../ui/input";
@@ -9,11 +9,11 @@ type SearchBarProps = {
 };
 
 // Fonction pour rechercher une tâche
-export function searchTask(tasksList: TaskList, searchTerm: string) {
-  if (!tasksList) {
+export function searchTask(task: Task, searchTerm: string) {
+  if (!task) {
     return [];
   }
-  return tasksList.filter((task: TaskList) => {
+  return task.filter((task: Task) => {
     return (
       task.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       (task.description &&
