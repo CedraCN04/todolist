@@ -12,13 +12,6 @@ export const useTask = (initialTask:Task[] = []) => {
       return filteredTasks.filter((initialTask: Task) => filterTasks(initialTask, filter));
     };
 
-    /* useEffect(() => {
-      const getTasks = getLocalStorage();
-      if (getTasks) {
-        setTasks(getTasks);
-      }
-    },[]); */
-
     const selectTask = (id: number) => {
       return id;
     };
@@ -28,21 +21,27 @@ export const useTask = (initialTask:Task[] = []) => {
         return newId(ids)
     }
 
+
     const addTask = async(name: string) => {
+      const errorDatabase = await addTaskToDataBase(name);
+      if (errorDatabase) return errorDatabase.message
       const newTask = {
         id: newTodoId(),
         name,
         is_completed: false,
       }
-      const errorDatabase = await addTaskToDataBase(name);
-      if (errorDatabase) return errorDatabase.message
+      console.log('addTask', newTask);
+      
       setTasks([...tasks, newTask]);
       return newTask;
+      
     }
 
     const deleteTask = async(id: number) => {
       const errorDatabase = await deleteTaskInDataBase(id);
       if (errorDatabase) return errorDatabase.message
+      console.log('deleteTask', id);
+      
       const newTasks = tasks.filter((task) => task.id !== id);
       setTasks(newTasks);
     }

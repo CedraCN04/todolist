@@ -23,7 +23,7 @@ export const addTaskToDataBase = async(name:string) => {
 }
 
 // Suppression d'une tâche dans la base de données
-export const deleteTaskInDataBase = async(id:number) => {
+export const deleteTaskInDataBase = async (id: number) => {
   const supabase = await createActionServer()
   const {data: {user}} = await supabase.auth.getUser()
   if(!user) return {
@@ -35,6 +35,7 @@ export const deleteTaskInDataBase = async(id:number) => {
   if(error) return {
     message: "une erreur est survenue"
   }
+  revalidatePath("/")
 }
 
 // Modification du nom de la tâche dans la base de données et de son état
@@ -49,5 +50,7 @@ export const updateTaskinDatabase = async(newTask: Task) => {
   if(error) return {
     message: "Une erreur est survenue"
   }
+  revalidatePath("/")
 }
+
 
