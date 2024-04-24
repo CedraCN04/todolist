@@ -1,7 +1,7 @@
 import { Task, TypeFilter } from "@/types/types";
 import { useState } from "react";
 import { newId } from "../functions";
-import { addTaskToDataBase } from "../task/action";
+import { addTaskToDataBase, deleteTaskInDataBase } from "../task/action";
 import { filterTasks } from "../utils-task";
 
 export const useTask = (initialTask:Task[] = []) => {
@@ -40,10 +40,11 @@ export const useTask = (initialTask:Task[] = []) => {
       return newTask;
     }
 
-    const deleteTask = (id: number) => {
+    const deleteTask = async(id: number) => {
+      const errorDatabase = await deleteTaskInDataBase(id);
+      if (errorDatabase) return errorDatabase.message
       const newTasks = tasks.filter((task) => task.id !== id);
       setTasks(newTasks);
-      //saveLocalStorage(newTasks);
     }
 
   const updateTask = (newTask: Task) => {
