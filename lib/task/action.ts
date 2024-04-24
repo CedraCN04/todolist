@@ -1,5 +1,6 @@
 "use server"
 
+import { Task } from "@/types/types"
 import { revalidatePath } from "next/cache"
 import { createActionServer } from "../supabase/actions"
 
@@ -33,5 +34,19 @@ export const deleteTaskInDataBase = async(id:number) => {
   
   if(error) return {
     message: "une erreur est survenue"
+  }
+}
+
+// Modification du nom de la tâche dans la base de données
+export const updateTaskinDatabase = async(newTask: Task) => {
+  const supabase = await createActionServer()
+  const {data: {user}} = await supabase.auth.getUser()
+  if(!user) return {
+    message: "Vous devez être connecté"
+  }
+  const { error } = await supabase.from("Task").update({name: newTask.name}).match({id: newTask.id})
+  
+  if(error) return {
+    message: "Une erreur est survenue"
   }
 }

@@ -1,7 +1,7 @@
 import { Task, TypeFilter } from "@/types/types";
 import { useState } from "react";
 import { newId } from "../functions";
-import { addTaskToDataBase, deleteTaskInDataBase } from "../task/action";
+import { addTaskToDataBase, deleteTaskInDataBase, updateTaskinDatabase } from "../task/action";
 import { filterTasks } from "../utils-task";
 
 export const useTask = (initialTask:Task[] = []) => {
@@ -47,15 +47,16 @@ export const useTask = (initialTask:Task[] = []) => {
       setTasks(newTasks);
     }
 
-  const updateTask = (newTask: Task) => {
+  const updateTask = async(newTask: Task) => {
     const newTasks = tasks.map((task) => {
       if (task.id === newTask.id) {
         return { ...task, ...newTask};
       }
       return task;
     });
+    const errorDatabase = await updateTaskinDatabase(newTask);
+    if(errorDatabase) return errorDatabase.message
     setTasks(newTasks);
-    //saveLocalStorage(newTasks);
   }
 
     return {
