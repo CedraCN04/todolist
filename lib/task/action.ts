@@ -6,7 +6,7 @@ import { createActionServer } from "../supabase/actions"
 
 
 // Ajout d'une tâche dans la base de données
-export const addTaskToDataBase = async(name:string) => {
+export const addTaskToDataBase = async(name:string, id:number) => {
   if(!name) return {
     message: "Le nom est requis"
   }
@@ -15,10 +15,11 @@ export const addTaskToDataBase = async(name:string) => {
   if(!user) return {
     message: "Vous devez être connecté"
   }
-  const { error } = await supabase.from("Task").insert([{name, user_id: user.id}])
+  const { error } = await supabase.from("Task").insert([{name, id, user_id: user.id}])  
   if(error) return {
     message: "Une erreur est survenue"
   }
+
   revalidatePath("/")
 }
 

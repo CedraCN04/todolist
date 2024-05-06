@@ -21,16 +21,15 @@ export const useTask = (initialTask:Task[] = []) => {
         return newId(ids)
     }
 
-
-    const addTask = async(name: string) => {
-      const errorDatabase = await addTaskToDataBase(name);
+  const addTask = async (name: string) => {
+      const id = newTodoId();
+      const errorDatabase = await addTaskToDataBase(name,id);
       if (errorDatabase) return errorDatabase.message
       const newTask = {
-        id: newTodoId(),
+        id,
         name,
         is_completed: false,
       }
-      console.log('addTask', newTask);
       
       setTasks([...tasks, newTask]);
       return newTask;
@@ -40,7 +39,6 @@ export const useTask = (initialTask:Task[] = []) => {
     const deleteTask = async(id: number) => {
       const errorDatabase = await deleteTaskInDataBase(id);
       if (errorDatabase) return errorDatabase.message
-      console.log('deleteTask', id);
       
       const newTasks = tasks.filter((task) => task.id !== id);
       setTasks(newTasks);
