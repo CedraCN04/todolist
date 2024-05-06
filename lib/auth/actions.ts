@@ -26,6 +26,7 @@ export const signInWithPassword = async (data: FormData) => {
 		email: data.get("email") as string,
     password: data.get("password") as string,
 	});
+  
   if (error) {
     throw error;
   }

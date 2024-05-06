@@ -6,7 +6,7 @@ import { createActionServer } from "../supabase/actions"
 
 
 // Ajout d'une tâche dans la base de données
-export const addTaskToDataBase = async(name:string) => {
+export const addTaskToDataBase = async(name:string, id:number) => {
   if(!name) return {
     message: "Le nom est requis"
   }
@@ -15,15 +15,16 @@ export const addTaskToDataBase = async(name:string) => {
   if(!user) return {
     message: "Vous devez être connecté"
   }
-  const { error } = await supabase.from("Task").insert([{name, user_id: user.id}])
+  const { error } = await supabase.from("Task").insert([{name, id, user_id: user.id}])  
   if(error) return {
     message: "Une erreur est survenue"
   }
+
   revalidatePath("/")
 }
 
 // Suppression d'une tâche dans la base de données
-export const deleteTaskInDataBase = async(id:number) => {
+export const deleteTaskInDataBase = async (id: number) => {
   const supabase = await createActionServer()
   const {data: {user}} = await supabase.auth.getUser()
   if(!user) return {
@@ -35,18 +36,22 @@ export const deleteTaskInDataBase = async(id:number) => {
   if(error) return {
     message: "une erreur est survenue"
   }
+  revalidatePath("/")
 }
 
-// Modification du nom de la tâche dans la base de données
+// Modification du nom de la tâche dans la base de données et de son état
 export const updateTaskinDatabase = async(newTask: Task) => {
   const supabase = await createActionServer()
   const {data: {user}} = await supabase.auth.getUser()
   if(!user) return {
     message: "Vous devez être connecté"
   }
-  const { error } = await supabase.from("Task").update({name: newTask.name}).match({id: newTask.id})
+  const { error } = await supabase.from("Task").update({name: newTask.name, is_completed:newTask.is_completed}).match({id: newTask.id})
   
   if(error) return {
     message: "Une erreur est survenue"
   }
+  revalidatePath("/")
 }
+
+
