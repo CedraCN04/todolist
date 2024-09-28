@@ -47,7 +47,6 @@ export const updateTaskinDatabase = async(newTask: Task) => {
     message: "Vous devez être connecté"
   }
   const { error } = await supabase.from("Task").update({name: newTask.name, is_completed:newTask.is_completed, description:newTask.description}).match({id: newTask.id})
-  
   if(error) return {
     message: "Une erreur est survenue"
   }
